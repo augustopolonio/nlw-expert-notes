@@ -6,8 +6,8 @@ export default {
   ],
   theme: {
     extend: {
-      colors: {
-        rocketseat: '#8257e6'
+      fontFamily: {
+        sans: [ 'Inter', 'sans-serif' ]
       }
     },
   },
