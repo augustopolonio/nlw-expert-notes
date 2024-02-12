@@ -3,7 +3,11 @@ import { X } from 'lucide-react'
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { toast } from 'sonner'
 
-export function NewNodeCard() {
+interface NewNodeCardProps {
+  onNoteCreated: (content: string) => void
+}
+
+export function NewNodeCard({ onNoteCreated }: NewNodeCardProps) {
   const [shouldShowOnboarding, setShouldShowOnboarding] = useState(true)
   const [content, setContent] = useState('')
 
@@ -18,7 +22,9 @@ export function NewNodeCard() {
 
   function handleSaveNote(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    console.log(content)
+    onNoteCreated(content)
+    setContent('')
+    setShouldShowOnboarding(true)
     toast.success('Nota criada com sucesso!')
   }
 
@@ -65,6 +71,7 @@ export function NewNodeCard() {
                     autoFocus
                     className="flex-1 resize-none bg-transparent text-sm leading-6 text-slate-400 outline-none"
                     onChange={handleContentChanged}
+                    value={content}
                   />
                 )}
               </div>
