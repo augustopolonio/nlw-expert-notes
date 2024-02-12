@@ -1,4 +1,6 @@
 import * as Dialog from '@radix-ui/react-dialog'
+import { formatDistanceToNow } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 
 interface NoteCardProps {
   note: {
@@ -21,13 +23,26 @@ export function NoteCard({ note }: NoteCardProps) {
 
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/60">
-          <Dialog.Content className="fixed left-1/2 top-1/2 flex h-[60vh] w-full max-w-[640px] -translate-x-1/2 -translate-y-1/2 flex-col rounded-md bg-slate-700 outline-none">
+          <Dialog.Content className="fixed left-1/2 top-1/2 flex h-[60vh] w-full max-w-[640px] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-md bg-slate-700 outline-none">
             <div className="flex flex-1 flex-col gap-3 p-5">
               <span className="text-sm font-medium text-slate-300">
-                {note.date.toISOString()}
+                {formatDistanceToNow(note.date, {
+                  locale: ptBR,
+                  addSuffix: true,
+                })}
               </span>
               <p className="text-sm leading-6 text-slate-400">{note.content}</p>
             </div>
+
+            <button
+              type="button"
+              className="group w-full bg-slate-800 py-4 text-center font-medium text-slate-300 outline-none"
+            >
+              Deseja{' '}
+              <span className="text-red-400 group-hover:underline">
+                apagar esta nota?
+              </span>
+            </button>
           </Dialog.Content>
         </Dialog.Overlay>
       </Dialog.Portal>
