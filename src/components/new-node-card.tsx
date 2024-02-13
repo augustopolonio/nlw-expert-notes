@@ -7,6 +7,8 @@ interface NewNodeCardProps {
   onNoteCreated: (content: string) => void
 }
 
+let speechRecognition: SpeechRecognition | null = null
+
 export function NewNodeCard({ onNoteCreated }: NewNodeCardProps) {
   const [shouldShowOnboarding, setShouldShowOnboarding] = useState(true)
   const [content, setContent] = useState('')
@@ -44,7 +46,7 @@ export function NewNodeCard({ onNoteCreated }: NewNodeCardProps) {
     const SpeechRecognitionAPI =
       window.SpeechRecognition || window.webkitSpeechRecognition
 
-    const speechRecognition = new SpeechRecognitionAPI()
+    speechRecognition = new SpeechRecognitionAPI()
 
     speechRecognition.lang = 'pt-BR'
     speechRecognition.continuous = true
@@ -68,6 +70,7 @@ export function NewNodeCard({ onNoteCreated }: NewNodeCardProps) {
   function handleStopRecording() {
     console.log('Stop!')
     setIsRecording(false)
+    speechRecognition?.stop()
   }
 
   return (
