@@ -2,6 +2,7 @@ import { ChangeEvent, useState } from 'react'
 import logo from './assets/logo-nlw-expert.svg'
 import { NewNodeCard } from './components/new-node-card'
 import { NoteCard } from './components/node-card'
+import { toast } from 'sonner'
 
 interface Note {
   id: string
@@ -31,6 +32,17 @@ export function App() {
 
     setNotes(notesArray)
 
+    localStorage.setItem('notes', JSON.stringify(notesArray))
+  }
+
+  function onNoteDeleted(id: string) {
+    const notesArray = notes.filter((note) => {
+      return note.id !== id
+    })
+
+    toast.success('Excluído com sucesso')
+
+    setNotes(notesArray)
     localStorage.setItem('notes', JSON.stringify(notesArray))
   }
 
@@ -65,7 +77,9 @@ export function App() {
         <NewNodeCard onNoteCreated={onNoteCreated} />
 
         {filteredNotes.map((note) => {
-          return <NoteCard note={note} key={note.id} />
+          return (
+            <NoteCard note={note} key={note.id} onNoteDeleted={onNoteDeleted} />
+          )
         })}
       </div>
     </div>
